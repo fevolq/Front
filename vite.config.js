@@ -4,9 +4,7 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig(( mode ) => {
-  console.log(mode);
   const env = loadEnv(mode.mode, './', '' )
-  console.log('env: ', env);
 
   return {
     plugins: [vue()],
