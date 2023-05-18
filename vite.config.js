@@ -1,14 +1,30 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [vue()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+export default defineConfig(( mode ) => {
+  console.log(mode);
+  const env = loadEnv(mode.mode, './', '' )
+  console.log('env: ', env);
+
+  return {
+    plugins: [vue()],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      }
+    },
+    server: {
+      open: false,
+      port: env.VITE_APP_PORT,
+      proxy: {
+        '/api': {
+          target: `${env.VITE_BACKEND_API}:${env.VITE_BACKEND_PORT}`,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
+    },
   }
 })
