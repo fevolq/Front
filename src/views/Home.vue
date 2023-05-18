@@ -4,10 +4,13 @@
 </template>
 
 <script setup>
-import userApi from '../api/user.js'
+import { useInstanceStore } from '../stores/instance.js'
+import { useUserStore } from '../stores/user.js'
 
+const userStore = useUserStore()
+const store = useInstanceStore()
 const onClick = () => {
-  console.log(import.meta.env);
-    userApi.register()
+  console.log('token: ', store.token);
+  console.log(userStore.user);
 }
 </script>

@@ -2,5 +2,6 @@
   <RouterView />
 </template>
 
-<style scoped>
+<style>
+@import "./assets/style/main.css";
 </style>

@@ -7,8 +7,10 @@ export const useUserStore = defineStore('user', () => {
         Email: null,
     }
 
-    function loadUser() {
-
+    function loadUser(data) {
+        user.UID = data['uid']
+        user.Email = data['email']
+        user.Name = data['uname']
     }
 
     return { 

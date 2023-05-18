@@ -50,15 +50,15 @@ const router = createRouter({
   routes: routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   document.title = `Front - ${to.meta.title}`
-//   const token = localStorage.getItem('token')
-//   if (!token && to.path !== '/login') {
-//     next('/login')
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  document.title = `Front - ${to.meta.title}`
+  const token = localStorage.getItem('token')
+  if (!token && to.path !== '/login') {
+    next('/login')
+  } else {
+    next()
+  }
+})
 
 router.beforeEach((to, from, next) => {
   if (to.name === null || to.name === undefined) {

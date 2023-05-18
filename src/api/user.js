@@ -1,10 +1,13 @@
 import request from '../utils/http/request.js'
 
 const register = (data) => {
-    return request.post('/user/register', data)
+    return request.postForm('/user/register', data)
 }
 const login = (data) => {
-    return request.post('/user/login', data)
+    return request.postForm('/user/login', data)
+}
+const info = () => {
+    return request.get('/user/info')
 }
 const getUserList = (data) => {
     return request.get('/user/list', data)
@@ -15,9 +18,9 @@ const delUser = (data) => {
 }
 
 const getUserInfo = (data) => {
-    return request.get('/user/info', data)
+    return request.get('/user/list', data)
 }
 
-export default {
-    register, login, getUserList, delUser, getUserInfo
+export  {
+    register, login, info, getUserList, delUser, getUserInfo
 }

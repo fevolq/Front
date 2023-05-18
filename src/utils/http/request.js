@@ -8,6 +8,21 @@ const get = (url, data) => {
     })
 }
 
+const postForm = (url, data) => {
+    return new Promise((resolve, reject) => {
+        const headers = {
+            'Content-Type': 'multipart/form-data'
+        }
+        service.post(url, data, {headers: headers})
+        .then(res => {
+            resolve(res)
+        })
+        .catch(error => {
+            reject(error)
+        })
+    })
+}
+
 const post = (url, data) => {
     return new Promise((resolve, reject) => {
         service.post(url, data)
@@ -38,6 +53,7 @@ const del = (url, data) => {
 
 export default {
     get,
+    postForm,
     post,
     put,
     del,

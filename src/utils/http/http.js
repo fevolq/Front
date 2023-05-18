@@ -25,9 +25,14 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     res => {
         if (res.status === 200) {
-            return res.data
+            if (res.data.code === 200) {
+                return res.data
+            } else {
+                ElMessage.error(`msg: ${res.data.msg}`)
+                return Promise.reject(new Error(res.data.msg))
+            }
         } else {
-            Promise.reject()
+            return Promise.reject(new Error(res.status))
         }
     },
     err => {
@@ -46,6 +51,7 @@ service.interceptors.response.use(
             }
             ElMessage.error('服务器连接失败', err)
         }
+        return Promise.reject(err)
     }
 )
 
