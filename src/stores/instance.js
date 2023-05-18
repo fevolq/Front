@@ -10,8 +10,12 @@ export const useInstanceStore = defineStore('instance', () => {
         }
     }
 
+    function clearToken() {
+        localStorage.removeItem('token')
+    }
+
     return { 
         token,
-        saveToken,
+        saveToken, clearToken,
     }
 })

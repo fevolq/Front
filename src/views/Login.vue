@@ -1,7 +1,7 @@
 <template>
-    <div class="login-wrap">
-        <!-- <h1>系统</h1> -->
-        <div class="login">
+    <div class="login">
+        <h1>请登录</h1>
+        <div class="login-box">
             <el-form
             :model="formData"
             label-width="0px"
@@ -24,10 +24,15 @@
                     </el-input>
                 </el-form-item>
 
-                <el-button type="primary" @click="onLogin" class="loginBtn">
+                <el-button type="primary" @click="onLogin" class="login-btn">
                     登录
                 </el-button>
             </el-form>
+            <div class="other-act">
+                <el-button type="primary" link @click="toRegister" class="register-btn">
+                    无账号？去注册
+                </el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -65,22 +70,35 @@ const onLogin = () => {
         }
     })
 }
+
+const toRegister = () => {
+    router.push('/register')
+}
 </script>
 
 <style scoped>
-.login-wrap {
+.login {
     width: 100%;
     height: 100%;
     background-color: #35495e;
     position: relative;
 }
 
-.login {
+.login h1 {
+    width: 100%;
+    height: 20%;
+    color: #dafff14a;
+    /* text-align: center; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 350px;
-    height: 150px;
     margin: -190px 0 0 -175px;
     padding: 20px ;
 
@@ -95,9 +113,21 @@ const onLogin = () => {
     margin: 5px 20px;
 }
 
-.loginBtn {
+.login-btn {
     width: 100%;
     height: 36px;
     margin-bottom: 10px;
+}
+
+.other-act {
+    margin: auto 20px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.register-btn:hover {
+    color: white;
 }
 </style>
