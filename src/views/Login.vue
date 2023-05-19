@@ -1,37 +1,42 @@
 <template>
     <div class="login">
-        <h1>请登录</h1>
-        <div class="login-box">
-            <el-form
-            :model="formData"
-            label-width="0px"
-            :rules="loginRule"
-            ref="loginRef"
-            class="form"
-            >
-                <el-form-item prop="email" required>
-                    <el-input v-model="formData.email" placeholder="邮箱">
-                        <template #prepend>
-                            <el-icon><Avatar /></el-icon>
-                        </template>
-                    </el-input>
-                </el-form-item>
-                <el-form-item prop="password" required>
-                    <el-input v-model="formData.password" placeholder="密码" type="password" show-password>
-                        <template #prepend>
-                            <el-icon><Lock /></el-icon>
-                        </template>
-                    </el-input>
-                </el-form-item>
-
-                <el-button type="primary" @click="onLogin" class="login-btn">
-                    登录
-                </el-button>
-            </el-form>
-            <div class="other-act">
-                <el-button type="primary" link @click="toRegister" class="register-btn">
-                    无账号？去注册
-                </el-button>
+        <div class="title">
+            <h1>天命</h1>
+        </div>
+        <div class="box">
+            <div class="login-box">
+                <h2>请登录</h2>
+                <el-form
+                :model="formData"
+                label-width="0px"
+                :rules="loginRule"
+                ref="loginRef"
+                class="form"
+                >
+                    <el-form-item prop="email" required>
+                        <el-input v-model="formData.email" placeholder="邮箱">
+                            <template #prepend>
+                                <el-icon><Avatar /></el-icon>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item prop="password" required>
+                        <el-input v-model="formData.password" placeholder="密码" type="password" show-password>
+                            <template #prepend>
+                                <el-icon><Lock /></el-icon>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+    
+                    <el-button type="primary" @click="onLogin" class="login-btn">
+                        登录
+                    </el-button>
+                </el-form>
+                <div class="other-act">
+                    <el-button type="primary" link @click="toRegister" class="register-btn">
+                        无账号？去注册
+                    </el-button>
+                </div>
             </div>
         </div>
     </div>
@@ -84,44 +89,56 @@ const toRegister = () => {
     position: relative;
 }
 
-.login h1 {
-    width: 100%;
-    height: 20%;
-    color: #dafff14a;
-    /* text-align: center; */
+.login .title,
+.login .box {
+    height: 30%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.login-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 350px;
-    margin: -190px 0 0 -175px;
-    padding: 20px ;
+.title h1 {
+    color: #ebd0f978;
+    width: 300px;
 
+    text-align: center;
+    letter-spacing: 70px;
+    text-indent: 70px;
+}
+
+.box .login-box {
     background-color: rgba(255, 255, 255, 0.16);
     border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.login-box h2 {
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    letter-spacing: 50px;
+    text-indent: 50px;
+
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px inset black;
 }
 
 .form {
+    width: 300px;
     display: flex;
     flex-direction: column;
 
-    margin: 5px 20px;
+    margin: 10px 20px;
 }
 
 .login-btn {
-    width: 100%;
     height: 36px;
-    margin-bottom: 10px;
 }
 
 .other-act {
-    margin: auto 20px;
-    margin-top: 10px;
+    margin: 10px 20px 5px 20px;
     display: flex;
     align-items: center;
     justify-content: right;
