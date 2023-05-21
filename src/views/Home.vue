@@ -1,16 +1,20 @@
 <template>
-  Home
-  <button @click="onClick">点击</button>
+  <v-header />
+  <v-tag />
+  <div class="content">
+    <RouterView v-slot="{ Component }">
+      <transition name="move" mode="out-in">
+          <KeepAlive :include="tagsList">
+              <component :is="Component" />
+          </KeepAlive>
+      </transition>
+    </RouterView>
+  </div>
+  <v-footer />
 </template>
 
 <script setup>
-import { useInstanceStore } from '../stores/instance.js'
-import { useUserStore } from '../stores/user.js'
-
-const userStore = useUserStore()
-const store = useInstanceStore()
-const onClick = () => {
-  console.log('token: ', store.token);
-  console.log(userStore.user);
-}
+import vHeader from '../components/Header.vue'
+import vFooter from '../components/Footer.vue'
+import vTag from '../components/Tag.vue'
 </script>

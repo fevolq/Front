@@ -1,20 +1,25 @@
+import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('user', () => {
-    const user = {
-        UID: null,
-        Name: null,
-        Email: null,
-    }
+import * as userApi from '../api/user.js'
 
-    function loadUser(data) {
-        user.UID = data['uid']
-        user.Email = data['email']
-        user.Name = data['uname']
+export const useUserStore = defineStore('user', () => {
+    const user = reactive({
+      UID: null,
+      Name: null,
+      Email: null,
+    })
+
+    async function loadUser() {
+      userApi.info().then((res) => { 
+        user.UID = res.data['uid']
+        user.Email = res.data['email']
+        user.Name = res.data['uname']
+      })
     }
 
     return { 
-        user,
-        loadUser,
+      user,
+      loadUser,
     }
 })

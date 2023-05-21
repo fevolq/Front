@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import { useInstanceStore } from '../stores/instance.js'
+import { useUserStore } from '../stores/user.js'
+
 const routes = [
   {
     path: '/',
@@ -28,6 +31,12 @@ const routes = [
         name: 'Dashboard',
         meta: { title: '首页' },
         component: () => import('../views/Dashboard.vue'),
+      },
+      {
+        path: '/userHome',
+        name: 'UserHome',
+        meta: { title: '个人主页' },
+        component: () => import('../views/UserHome.vue')
       }
     ]
   },
@@ -52,10 +61,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = `Front - ${to.meta.title}`
-  const token = localStorage.getItem('token')
-  if (!token && to.path !== '/login' && to.path !== '/register') {
+  const store = useInstanceStore()
+  const userStore = useUserStore()
+  // console.log('token: ', store.token, 'user: ', userStore.user.UID, 'path', to.path);
+  if (!store.token && to.path !== '/login' && to.path !== '/register') {
     next('/login')
   } else {
+    if (!userStore.user.UID && to.path !== '/login' && to.path !== '/register') {
+      userStore.loadUser()
+    }
     next()
   }
 })
