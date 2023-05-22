@@ -18,8 +18,8 @@ const data = reactive({
 
 async function getWitticism() {
   return poemApi.getWitticism(data.id).then((res) => {
-    Object.keys(res.data).forEach(key => {
-      data[key] = res.data[key]
+    Object.keys(res.data[0]).forEach(key => {
+      data[key] = res.data[0][key]
     })
   })
 }
