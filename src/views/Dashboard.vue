@@ -30,7 +30,6 @@ const data = reactive({
 
 const getPoem = () => {
   poemApi.getPoem(data.id).then((res) => {
-    console.log(res.data);
     Object.keys(res.data).forEach(key => {
       data[key] = res.data[key];
     });
