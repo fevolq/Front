@@ -1,26 +1,29 @@
 import request from '../utils/http/request.js'
 
+const baseUri = 'user'
+
 const register = (data) => {
-    return request.postForm('/user/register', data)
+  const endPoint = 'register'
+  return request.postForm(`/${baseUri}/${endPoint}`, data)
 }
 const login = (data) => {
-    return request.postForm('/user/login', data)
+    const endPoint = 'login'
+  return request.postForm(`/${baseUri}/${endPoint}`, data)
 }
 const info = () => {
-    return request.get('/user/info')
+  const endPoint = 'info'
+  return request.get(`/${baseUri}/${endPoint}`)
 }
 const getUserList = (data) => {
-    return request.get('/user/list', data)
+  const endPoint = 'list'
+  return request.get(`/${baseUri}/${endPoint}`, data)
 }
 
 const delUser = (data) => {
-    return request.del('/user/del', data)
-}
-
-const getUserInfo = (data) => {
-    return request.get('/user/list', data)
+  const endPoint = 'del'
+  return request.del(`/${baseUri}/${endPoint}`, data)
 }
 
 export  {
-    register, login, info, getUserList, delUser, getUserInfo
+  register, login, info, getUserList, delUser
 }
