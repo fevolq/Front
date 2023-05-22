@@ -46,7 +46,7 @@ async function scroll(containerEl, scrollEl, speed=5) {
       { transform: `translateX(-${textWidth + 50}px)`},
     ],
     {
-      duration: animationDuration * 500,
+      duration: animationDuration > 0 ? animationDuration * 500 : "auto",
       iterations: 1,
       easing: 'linear',
     }
