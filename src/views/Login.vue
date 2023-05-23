@@ -33,9 +33,12 @@
                     </el-button>
                 </el-form>
                 <div class="other-act">
-                    <el-button type="primary" link @click="toRegister" class="register-btn">
-                        无账号？去注册
-                    </el-button>
+                  <el-button type="" link @click="onTemp" class="temp-btn">
+                    尝试一下
+                  </el-button>
+                  <el-button type="primary" link @click="toRegister" class="register-btn">
+                    无账号？去注册
+                  </el-button>
                 </div>
             </div>
         </div>
@@ -74,6 +77,13 @@ const onLogin = () => {
             return false
         }
     })
+}
+
+const onTemp = () => {
+  userApi.temp().then((res) => {
+    store.saveToken(res.token)
+    router.push('/')
+  })
 }
 
 const toRegister = () => {
@@ -141,10 +151,16 @@ const toRegister = () => {
     margin: 10px 20px 5px 20px;
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: space-between;
 }
 
+.temp-btn,
+.register-btn {
+  color: rgba(202, 197, 197, 0.963);;
+}
+
+.temp-btn:hover,
 .register-btn:hover {
-    color: white;
+    color: #409eff;
 }
 </style>

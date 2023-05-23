@@ -18,7 +18,7 @@
         >
         <router-link to="/userHome" style="color: black; text-decoration: none;">
           <img src="../assets/images/avator.jpeg" alt="头像">
-          <span>{{ userStore.user.Email }}</span>
+          <span>{{ userStore.user.Name }}</span>
         </router-link>
         </el-tooltip>
         <span class="badge"></span>
