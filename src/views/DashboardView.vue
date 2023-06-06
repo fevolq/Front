@@ -45,7 +45,7 @@ onBeforeRouteUpdate(() => {
 
 <style>
 .content {
-  background: url('../assets/images/bg01.png') no-repeat;
+  /* background: url('../assets/images/bg01.png') no-repeat; */
   /* background: url('../assets/images/bg02.jpg') no-repeat; */
   background-size: cover;
 }
