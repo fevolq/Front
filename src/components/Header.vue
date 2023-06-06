@@ -10,7 +10,7 @@
       <v-nav />
 
       <div class="user flex">
-        <el-tooltip
+        <!-- <el-tooltip
         class="box-item"
         effect="dark" 
         :content="message?`有${message}条未读消息`:`个人主页`" 
@@ -20,8 +20,21 @@
           <img src="../assets/images/avator.jpeg" alt="头像">
           <span>{{ userStore.user.Name }}</span>
         </router-link>
-        </el-tooltip>
-        <span class="badge"></span>
+        </el-tooltip> -->
+        <!-- <span class="badge"></span> -->
+
+        <el-dropdown class="user-name" trigger="click" @command="handleUserCommand">
+          <span class="el-drondown-link">
+            {{ userStore.user.Name }}
+            <i class="el-icon-caret-bottm"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="toUserHome">个人中心</el-dropdown-item>
+              <el-dropdown-item divided command="logout">注销</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
 
       <div class="collapse-btn flex" @click="store.handleHeaderCollapse">
@@ -36,12 +49,27 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
 import vNav from './Nav.vue'
 import { useInstanceStore } from '../stores/instance.js'
 import { useUserStore } from '../stores/user.js'
 
 const store = useInstanceStore()
 const userStore = useUserStore()
+const router = useRouter()
+
+const handleUserCommand = (command) => {
+  switch (command) {
+    case "toUserHome":
+      router.push('/userHome')
+      break
+    case "logout":
+      store.clearToken()
+      router.push('/login')
+      break
+  }
+}
 </script>
 
 <style scoped>
@@ -74,12 +102,16 @@ const userStore = useUserStore()
   margin: 5px 0;
 }
 
-.user img {
+.user {
+  cursor: pointer;
+}
+
+/* .user img {
   float: left;
   margin-right: 5px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
+} */
 
 </style>

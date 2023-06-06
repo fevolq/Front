@@ -41,6 +41,7 @@ body,
 .content {
   position: relative;
   top: calc(calc(var(--header-height) + 4) * 1%);
+  margin-top: 1px;
 }
 
 .footer {

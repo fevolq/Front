@@ -4,6 +4,7 @@
        :default-active="onRoutes"
        mode="horizontal"
        collapse-transition
+       @select="handleSelect"
        >
         <template v-for="navRoute in navRoutes" :key="navRoute.index">
           <template v-if="navRoute.children.length > 0">
@@ -23,13 +24,18 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import { navRoutes } from '../constant/nav.js'
 
 const route = useRoute()
+const router = useRouter()
 
 const onRoutes = computed(() => route.path)
+
+const handleSelect = (key, keyPath) => {
+  router.push(key)
+}
 </script>
 
 <style>

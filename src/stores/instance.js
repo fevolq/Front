@@ -18,6 +18,7 @@ export const useInstanceStore = defineStore('instance', () => {
 
   function clearToken() {
       localStorage.removeItem('token')
+      tokenUpdate.value = !tokenUpdate.value
   }
 
   function handleHeaderCollapse() {
