@@ -14,7 +14,7 @@
         </template>
       </template>
 
-      <el-button :icon="Search" @click="handleSearch" circle />
+      <el-button class="search" :icon="Search" @click="handleSearch" circle />
     </div>
     <!-- 表格 -->
     <div class="table">
@@ -51,7 +51,7 @@
 
 <script setup>
 import { ref, reactive, onBeforeMount, provide } from 'vue'
-import {} from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 
 import inputFilter from '../components/filters/inputFilter.vue'
 import selectFilter from '../components/filters/selectFilter.vue'
@@ -82,7 +82,7 @@ const getFilters = () => {
         defaultValue: filterData['default_value'],
         enableExclude: filterData['enable_exclude'],
         enableExpand: filterData['enable_expand'],
-        enableClear: filterData['enable_clear'],
+        required: filterData['required'],
       }
       filters[oneFilter.name] = oneFilter
       filtersValue[oneFilter.name] = ref(null)
@@ -125,3 +125,38 @@ const handleSearch = () => {
 }
 
 </script>
+
+<style>
+
+.filters {
+  display: flex;
+  align-items: center;
+  margin: auto 30px;
+  border-bottom: 1px inset rgba(133, 132, 132, 0.197);
+  padding-bottom: 10px;
+}
+
+.filters .filter {
+  margin: 10px 20px;
+}
+
+.filters .required > span::after {
+  content: ' *';
+  color: red;
+}
+
+.filter > span {
+  text-align: center;
+  margin-right: 5px;
+}
+
+.filters > .search {
+  color: red;
+  background-color: white;
+}
+
+.table {
+  margin: 30px;
+}
+
+</style>

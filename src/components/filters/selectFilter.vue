@@ -1,19 +1,21 @@
 <template>
-  <span>{{ filterData.title }}</span>
-  <el-select
-   v-model="filterValue"
-   :clearable="filterData.enableClear"
-   :placeholder="filterData.placeholder"
-   :multiple="filterData.type=='multiple'"
-  >
-    <el-option
-      v-for="item in filterData.options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-      :disabled="item.disabled"
-    />
-  </el-select>
+  <div class="filter select" :class="filterData.required ? 'required' : ''">
+    <span>{{ filterData.title }} : </span>
+    <el-select
+     v-model="filterValue"
+     clearable
+     :placeholder="filterData.placeholder"
+     :multiple="filterData.type=='multiple'"
+    >
+      <el-option
+        v-for="item in filterData.options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+  </div>
 </template>
 
 <script setup>

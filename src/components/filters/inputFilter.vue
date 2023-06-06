@@ -1,10 +1,17 @@
 <template>
-  <span>{{ filterData.title }}</span>
-  <el-input v-model="filterValue" :placeholder="filterData.placeholder" :clearable="filterData.enableClear"/>
+  <div class="filter input" :class="filterData.required ? 'required' : ''">
+    <span>{{ filterData.title }} : </span>
+    <el-input
+     class="filter-input"
+     v-model="filterValue"
+     :placeholder="filterData.placeholder"
+     clearable
+    />
+  </div>
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { inject } from 'vue'
 
 const props = defineProps({
     filterName: String,
@@ -16,3 +23,13 @@ const filterValue = filtersValue[props.filterName]
 console.log(filterValue);
 
 </script>
+
+<style scoped>
+.input > span {
+  display: inline;
+}
+
+.filter-input {
+  width: 70%;
+}
+</style>
