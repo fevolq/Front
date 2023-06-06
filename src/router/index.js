@@ -30,13 +30,34 @@ const routes = [
         alias: '/dashboard',
         name: 'Dashboard',
         meta: { title: '首页' },
-        component: () => import('../views/Dashboard.vue'),
+        component: () => import('../views/DashboardView.vue'),
       },
       {
         path: '/userHome',
         name: 'UserHome',
         meta: { title: '个人主页' },
         component: () => import('../views/UserHome.vue')
+      },
+      {
+        path: '/userManage',
+        name: 'UserManage',
+        meta: { title: '用户管理' },
+        component: () => import('../views/UserManage.vue'),
+        children: [
+          {
+            path: '',
+            alias: 'userList',
+            name: 'UserList',
+            meta: { title: '用户列表' },
+            component: () => import('../views/UserView.vue')
+          },
+          {
+            path: 'roleList',
+            name: 'RoleList',
+            meta: { title: '角色列表' },
+            component: () => import('../views/RoleView.vue')
+          }
+        ]
       }
     ]
   },
@@ -63,7 +84,6 @@ router.beforeEach((to, from, next) => {
   document.title = `Front - ${to.meta.title}`
   const store = useInstanceStore()
   const userStore = useUserStore()
-  // console.log('token: ', store.token, 'user: ', userStore.user.UID, 'path', to.path);
   if (!store.token && to.path !== '/login' && to.path !== '/register') {
     next('/login')
   } else {
