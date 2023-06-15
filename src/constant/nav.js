@@ -9,7 +9,7 @@ export const navRoutes = [
     title: '数据',
     children: [
       {
-        index: '/fund',
+        index: '/finance',
         title: '金融'
       },
     ],
@@ -39,4 +39,11 @@ export const userNavRoutes = [
     index: '/userManage/roleList',
     title: '角色列表',
   },
+]
+
+export const financeNavRoutes = [
+  {
+    index: '/finance/fund',
+    title: '基金',
+  }
 ]

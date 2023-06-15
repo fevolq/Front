@@ -113,7 +113,6 @@ const getChart = () => {
 
   dashboardApi.getChart(props.dashboardName, props.chartName, query)
   .then(res => {
-    console.log(res);
     const resData = res['data']
     columns.value = resData['chart']['cols']
     tableData.value = resData['chart']['data']

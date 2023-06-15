@@ -1,5 +1,5 @@
 <template>
-  User
+  Author
 </template>
 
 <script setup>

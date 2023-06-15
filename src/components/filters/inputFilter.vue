@@ -20,7 +20,6 @@ const props = defineProps({
 const { filters, filtersValue } = inject('filters')
 const filterData = filters[props.filterName]
 const filterValue = filtersValue[props.filterName]
-console.log(filterValue);
 
 </script>
 
