@@ -39,6 +39,21 @@ const routes = [
         component: () => import('../views/UserHome.vue')
       },
       {
+        path: '/finance',
+        name: 'Finance',
+        meta: { title: '金融' },
+        component: () => import('../views/Finance.vue'),
+        children: [
+          {
+            path: '',
+            alias: 'fund',
+            name: 'Fund',
+            meta: { title: '基金' },
+            component: () => import('../views/finance/fundView.vue')
+          }
+        ]
+      },
+      {
         path: '/userManage',
         name: 'UserManage',
         meta: { title: '用户管理' },
@@ -49,13 +64,13 @@ const routes = [
             alias: 'userList',
             name: 'UserList',
             meta: { title: '用户列表' },
-            component: () => import('../views/UserView.vue')
+            component: () => import('../views/userManage/UserView.vue')
           },
           {
             path: 'roleList',
             name: 'RoleList',
             meta: { title: '角色列表' },
-            component: () => import('../views/RoleView.vue')
+            component: () => import('../views/userManage/RoleView.vue')
           }
         ]
       }
