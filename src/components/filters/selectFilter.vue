@@ -1,14 +1,14 @@
 <template>
-  <div class="filter select" :class="filterData.required ? 'required' : ''">
-    <span>{{ filterData.title }} : </span>
+  <div class="filter select" :class="filterConfig.required ? 'required' : ''">
+    <span>{{ filter.title }} : </span>
     <el-select
-     v-model="filterValue"
-     clearable
-     :placeholder="filterData.placeholder"
-     :multiple="filterData.type=='multiple'"
+     v-model="filter.values"
+     :clearable="!filterConfig.required"
+     :placeholder="filterConfig.placeholder"
+     :multiple="filter.type=='multiple'"
     >
       <el-option
-        v-for="item in filterData.options"
+        v-for="item in filterConfig.options"
         :key="item.value"
         :label="item.label"
         :value="item.value"
@@ -19,14 +19,14 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { inject } from 'vue'
 
 const props = defineProps({
     filterName: String,
 })
 
-const { filters, filtersValue } = inject('filters')
-const filterData = filters[props.filterName]
-const filterValue = ref(filtersValue[props.filterName])
+const { filters } = inject('filters')
+const filter = filters[props.filterName]
+const filterConfig = filter.config
 
 </script>

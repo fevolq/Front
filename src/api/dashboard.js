@@ -7,7 +7,7 @@ const getConfig = (name) => {
   const data = {
     name: name,
   }
-  return request.post(`/${baseUri}/${endPoint}`, data)
+  return request.get(`/${baseUri}/${endPoint}`, data)
 }
 
 const getChart = (name, chartName, query) => {

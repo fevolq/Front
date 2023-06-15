@@ -3,8 +3,14 @@
     <!-- 过滤器 -->
     <div class="filters">
       <template v-for="filter in filters" :key="filter.name">
-        <template v-if="filter.type=='input'">
+        <template v-if="filter.type=='daterange'">
+          <dateRangeFilter :filterName="filter.name"/>
+        </template>
+        <template v-else-if="filter.type=='input'">
           <inputFilter :filterName="filter.name"/>
+        </template>
+        <template v-else-if="filter.type=='inputs'">
+          <inputsFilter :filterName="filter.name"/>
         </template>
         <template v-else-if="filter.type=='single' || filter.type=='multiple'">
           <selectFilter :filterName="filter.name"/>
@@ -53,7 +59,9 @@
 import { ref, reactive, onBeforeMount, provide } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 
+import dateRangeFilter from '../components/filters/dateRangeFilter.vue'
 import inputFilter from '../components/filters/inputFilter.vue'
+import inputsFilter from '../components/filters/inputsFilter.vue'
 import selectFilter from '../components/filters/selectFilter.vue'
 import * as dashboardApi from '../api/dashboard.js'
 
@@ -62,36 +70,64 @@ const props = defineProps({
   chartName: String,
 })
 
+class Filter {
+  name;
+  title;
+  type;
+  config = {};
+
+  values = ref();
+  sendConfig = {};
+  expand = true;
+
+  constructor(config) {
+    this.name = config['name']
+    this.title = config['title']
+    this.type = config['type']
+    this.config = config
+  }
+
+  getSendConfig = () => {
+    return {
+      name: this.name,
+      values: this.values.value,
+      // is_expand: this.expand,
+    }
+  }
+}
+
+// 页面中所有过滤器。name: filter
 const filters = reactive({})
-const filtersValue = reactive({})
 
 const columns = ref([])
 const tableData = ref([])
 
 const getFilters = () => {
-  dashboardApi.getConfig(props.dashboardName).then(res => {
-    for (let filterData of res['data']['filters']) {
-      let oneFilter = {
-        name: filterData['name'],
-        title: filterData['title'],
-        type: filterData['type'],
-        options: filterData['options'],
-        sql: filterData['sql'],
-        defaultExclude: filterData['default_exclude'],
-        defaultExpand: filterData['default_expand'],
-        defaultValue: filterData['default_value'],
-        enableExclude: filterData['enable_exclude'],
-        enableExpand: filterData['enable_expand'],
-        required: filterData['required'],
+  dashboardApi.getConfig(props.dashboardName)
+  .then(res => {
+    res['data']['filters'].forEach(data => {
+      let filterName = data['name']
+      let filterConfig = {
+        name: data['name'],
+        title: data['title'],
+        type: data['type'],
+        options: data['options'],
+        sql: data['sql'],
+        defaultExclude: data['default_exclude'],
+        defaultExpand: data['default_expand'],
+        defaultValue: data['default_value'],
+        enableExclude: data['enable_exclude'],
+        enableExpand: data['enable_expand'],
+        required: data['required'],
       }
-      filters[oneFilter.name] = oneFilter
-      filtersValue[oneFilter.name] = ref(null)
-    }
+
+      const oneFilter = new Filter(filterConfig)
+      filters[filterName] = oneFilter
+    })
   })
 }
 provide('filters', {
-  filters,
-  filtersValue
+  filters
 })
 
 onBeforeMount(() => {
@@ -101,12 +137,10 @@ onBeforeMount(() => {
 
 const getChart = () => {
   const filtersValues = []
-  for (let filterName in filtersValue) {
-    filtersValues.push({
-      name: filterName,
-      value: filtersValue[filterName]
-    })
+  for (let filterName in filters) {
+    filtersValues.push(filters[filterName].getSendConfig())
   }
+  console.log(filtersValues);
   const query = {
     filters: filtersValues
   }
@@ -129,6 +163,8 @@ const handleSearch = () => {
 
 .filters {
   display: flex;
+  /* flex-wrap: wrap;
+  flex: 300px; */
   align-items: center;
   margin: auto 30px;
   border-bottom: 1px inset rgba(133, 132, 132, 0.197);
