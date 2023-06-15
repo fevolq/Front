@@ -1,27 +1,47 @@
 <template>
     <div class="footer">
       <div class="scroll-container">
-        <p class="scroll-text">{{ data.content }}</p>
+        <p class="scroll-text">{{ data }}</p>
       </div>
     </div>
 </template>
 
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import * as poemApi from '../api/poem.js'
 
-const data = reactive({
-  id: null,
-  content: null,
-})
+const data = ref(null)
 
-async function getWitticism() {
-  return poemApi.getWitticism(data.id).then((res) => {
-    Object.keys(res.data[0]).forEach(key => {
-      data[key] = res.data[0][key]
-    })
+const records = []
+const toShow = []
+const size = 10
+
+// 获取新的数据
+async function getNewWitticism() {
+  const ids = []
+  records.forEach(item => ids.push(item.id))
+  toShow.forEach(item => ids.push(item.id))
+  return poemApi.getWitticism(ids.join(), size).then((res) => {
+    if (res.data.length === 0) {
+      // 当没有新数据时，清空记录
+      records.splice(0, records.length)
+    }
+    res.data.forEach(item => toShow.push(item))
   })
+}
+
+// 加载新的数据
+async function loadNewData() {
+  if (toShow.length == 0) {
+    await getNewWitticism()
+  } else if (toShow.length < 3) {
+    getNewWitticism()
+  }
+
+  const newData = toShow.shift()
+  data.value = newData.content
+  records.push(newData)
 }
 
 // 获取文本尺寸
@@ -33,7 +53,7 @@ function getFonrSize(el) {
 }
 
 async function scroll(containerEl, scrollEl, speed=5) {
-  await getWitticism()
+  await loadNewData()
   // 计算文本的宽度
   const textWidth = scrollEl.textContent.length * getFonrSize(scrollEl)
   
@@ -55,21 +75,21 @@ async function scroll(containerEl, scrollEl, speed=5) {
   animation.play()
 
   // 鼠标事件
-  // containerEl.addEventListener('mouseenter', () => animation.pause())
-  // containerEl.addEventListener('mouseleave', () => animation.play())
+  containerEl.addEventListener('mouseenter', () => animation.pause())
+  containerEl.addEventListener('mouseleave', () => animation.play())
 
   animation.onfinish = () => {
     // containerEl.removeEventListener('mouseenter', () => animation.pause())
     // containerEl.removeEventListener('mouseleave', () => animation.play())
+    animation.cancel()
     scroll(containerEl, scrollEl, speed)
-    animation.finish()
   }
 }
 
 onMounted(() => {
   const containerEl = document.querySelector('.scroll-container')
   const textEl = document.querySelector('.scroll-text')
-  // scroll(containerEl, textEl, 5)
+  scroll(containerEl, textEl, 3)
 })
 
 </script>
