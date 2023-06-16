@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 import * as userApi from '../api/user.js'
@@ -56,27 +56,27 @@ const router = useRouter()
 const store = useInstanceStore()
 
 const formData = reactive({
-    email: '',
-    password: '',
+  email: '',
+  password: '',
 })
 
 const loginRef = ref(null)
 const loginRule = {
-    email: [{required: true, message: '邮箱不能为空', trigger: 'blur'}],
-    password: [{required: true, message: '密码不能为空', trigger: 'blur'}],
+  email: [{required: true, message: '邮箱不能为空', trigger: 'blur'}],
+  password: [{required: true, message: '密码不能为空', trigger: 'blur'}],
 }
 
 const onLogin = () => {
-    loginRef.value.validate((valid) => {
-        if (valid) {
-            userApi.login(formData).then((res) => {
-                store.saveToken(res.token)
-                router.push('/')
-            })
-        } else {
-            return false
-        }
-    })
+  loginRef.value.validate((valid) => {
+    if (valid) {
+      userApi.login(formData).then((res) => {
+        store.saveToken(res.token)
+        router.push('/')
+      })
+    } else {
+      return false
+    }
+  })
 }
 
 const onTemp = () => {
@@ -87,8 +87,19 @@ const onTemp = () => {
 }
 
 const toRegister = () => {
-    router.push('/register')
+  router.push('/register')
 }
+
+onMounted(() => {
+  window.onkeydown = e => {
+    switch (e.keyCode) {
+      case 13 :
+        document.querySelector('.login-btn').click()
+        break
+    }
+  }
+})
+
 </script>
 
 <style scoped>
