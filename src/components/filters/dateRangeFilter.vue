@@ -10,15 +10,18 @@
       start-placeholder="Start date"
       end-placeholder="End date"
       :shortcuts="shortcuts"
-      :default-value="defaultValue"
+      
       :clearable="!filterConfig.required"
       size="default"
+      editable
     />
   </div>
 </template>
 
 <script setup>
 import { inject } from 'vue'
+
+import { getDate } from '../../utils/util.js'
 
 const props = defineProps({
     filterName: String,
@@ -27,6 +30,9 @@ const props = defineProps({
 const { filters } = inject('filters')
 const filter = filters[props.filterName]
 const filterConfig = filter.config
+if (filterConfig.defaultValue) {
+  filter.values = [getDate(filterConfig.defaultValue[0]), getDate(filterConfig.defaultValue[1])]
+}
 
 const shortcuts = [
   {
@@ -57,8 +63,6 @@ const shortcuts = [
     },
   },
 ]
-
-const defaultValue = [new Date(2010, 9, 1), new Date(2010, 10, 1)]
 
 </script>
 
