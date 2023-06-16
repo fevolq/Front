@@ -20,50 +20,32 @@
         </template>
       </template>
 
-      <el-button class="search" :icon="Search" @click="handleSearch" circle />
+      <el-button class="search" :icon="doSearching ? Loading : Search" @click="handleSearch" circle :disabled="doSearching"/>
     </div>
-    <!-- 表格 -->
-    <div class="table">
-      <el-table :data="tableData" border style="width: 100%" ref="multipleTable" header-cell-class-name="table-header">
-        <template v-for="column in columns" :key="column.name">
-          <el-table-column
-           v-if="column.extra.show_tag"
-           :prop="column.name"
-           :label="column.label"
-           align="center"
-           width="180" >
-           <template #default="scope">
-              <el-tag
-                :type="success"
-                v-if="scope.row[column.name]"
-              >
-                {{ scope.row[column.name] }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column
-           v-else
-           :prop="column.name"
-           :label="column.label"
-           align="center"
-           width="180"
-           >
-          </el-table-column>
-        </template>
-      </el-table>
+
+    <!-- 数据 -->
+    <div class="data">
+      <div class="table">
+        <vTable :columns="columns" :data="tableData" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, onBeforeMount, provide } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { Search, Loading } from '@element-plus/icons-vue'
 
-import dateRangeFilter from '../components/filters/dateRangeFilter.vue'
-import inputFilter from '../components/filters/inputFilter.vue'
-import inputsFilter from '../components/filters/inputsFilter.vue'
-import selectFilter from '../components/filters/selectFilter.vue'
+import dateRangeFilter from './filters/dateRangeFilter.vue'
+import inputFilter from './filters/inputFilter.vue'
+import inputsFilter from './filters/inputsFilter.vue'
+import selectFilter from './filters/selectFilter.vue'
+
+import vTable from './data/table.vue'
+
 import * as dashboardApi from '../api/dashboard.js'
+
+const doSearching = ref(false)
 
 const props = defineProps({
   dashboardName: String,
@@ -74,17 +56,43 @@ class Filter {
   name;
   title;
   type;
-  config = {};
+  config = {
+    name: null,
+    title: null,
+    type: null,
+    options: null,
+    sql: null,
+    defaultExclude: null,
+    defaultExpand: null,
+    defaultValue: null,
+    enableExclude: null,
+    enableExpand: null,
+    required: null,
+  };
 
   values = ref();
   sendConfig = {};
-  expand = true;
+  expand = false;
 
   constructor(config) {
     this.name = config['name']
     this.title = config['title']
     this.type = config['type']
-    this.config = config
+    this.setConfig(config)
+  }
+
+  setConfig = (data) => {
+    this.config.name = data['name']
+    this.config.title =  data['title']
+    this.config.type = data['type']
+    this.config.options = data['options']
+    this.config.sql = data['sql']
+    this.config.defaultExclude = data['default_exclude']
+    this.config.defaultExpand = data['default_expand']
+    this.config.defaultValue = data['default_value']
+    this.config.enableExclude = data['enable_exclude']
+    this.config.enableExpand = data['enable_expand']
+    this.config.required = data['required']
   }
 
   getSendConfig = () => {
@@ -106,23 +114,8 @@ const getFilters = () => {
   dashboardApi.getConfig(props.dashboardName)
   .then(res => {
     res['data']['filters'].forEach(data => {
-      let filterName = data['name']
-      let filterConfig = {
-        name: data['name'],
-        title: data['title'],
-        type: data['type'],
-        options: data['options'],
-        sql: data['sql'],
-        defaultExclude: data['default_exclude'],
-        defaultExpand: data['default_expand'],
-        defaultValue: data['default_value'],
-        enableExclude: data['enable_exclude'],
-        enableExpand: data['enable_expand'],
-        required: data['required'],
-      }
-
-      const oneFilter = new Filter(filterConfig)
-      filters[filterName] = oneFilter
+      const oneFilter = new Filter(data)
+      filters[oneFilter.name] = oneFilter
     })
   })
 }
@@ -136,6 +129,8 @@ onBeforeMount(() => {
 })
 
 const getChart = () => {
+  doSearching.value = true
+  
   const filtersValues = []
   for (let filterName in filters) {
     filtersValues.push(filters[filterName].getSendConfig())
@@ -147,6 +142,8 @@ const getChart = () => {
 
   dashboardApi.getChart(props.dashboardName, props.chartName, query)
   .then(res => {
+    doSearching.value = false
+
     const resData = res['data']
     columns.value = resData['chart']['cols']
     tableData.value = resData['chart']['data']
@@ -190,7 +187,7 @@ const handleSearch = () => {
   background-color: white;
 }
 
-.table {
+.data {
   margin: 30px;
 }
 
