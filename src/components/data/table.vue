@@ -34,5 +34,4 @@ const props = defineProps({
   columns: Array,
   data: Array
 })
-console.log(props.columns);
 </script>

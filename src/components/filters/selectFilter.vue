@@ -1,6 +1,6 @@
 <template>
   <div class="filter select" :class="filterConfig.required ? 'required' : ''">
-    <span>{{ filter.title }} : </span>
+    <span>{{ filter.title }}</span>
     <el-select
      v-model="filter.values"
      :clearable="!filterConfig.required"

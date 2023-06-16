@@ -1,6 +1,6 @@
 <template>
   <div class="filter inputs" :class="filterConfig.required ? 'required' : ''">
-    <span>{{ filter.title }} : </span>
+    <span>{{ filter.title }}</span>
     <a-input-tag
      class="filter-inputs"
      v-model="filter.values"
@@ -29,12 +29,9 @@ const filterConfig = filter.config
 
 <style scoped>
 
-.inputs .filter-inputs {
-  /* display: inline-block; */
-}
-
 .filter-inputs {
   border: 1px inset rgba(143, 141, 141, 0.203);
   background-color: white;
+  width: 220px !important;
 }
 </style>

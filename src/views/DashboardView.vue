@@ -90,6 +90,7 @@ onBeforeRouteUpdate(() => {
   letter-spacing: 3px;
   text-indent: 3px;
   font-weight: 300;
+  font-size: 18px;
 }
 
 .poem .el-icon {

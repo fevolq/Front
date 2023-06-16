@@ -37,7 +37,7 @@
 
 
     <!-- 数据 -->
-    <div class="data">
+    <div class="data" v-loading="doSearching">
       <div class="table">
         <vTable :columns="columns" :data="tableData" />
       </div>
@@ -140,6 +140,7 @@ provide('filters', {
 })
 
 const getChart = () => {
+
   doSearching.value = true
   
   const filtersValues = []
@@ -177,43 +178,52 @@ onBeforeMount(() => {
 
 <style>
 
+.example-showcase .el-loading-mask {
+  z-index: 1;
+}
+
 .filters {
   display: flex;
-  /* flex-wrap: wrap;
-  flex: 300px; */
   align-items: center;
   margin: auto 30px;
   border-bottom: 1px inset rgba(133, 132, 132, 0.197);
-  padding-bottom: 10px;
+  padding: 10px 0;
 }
 
 .filter-area {
   display: flex;
   margin-right: 30px;
+  align-items: center;
 }
 
 .filter-area .filter {
-  margin: 10px 40px;
+  display: flex;
+  align-items: center;
+
+  margin: 10px 30px;
   margin-right: 0;
 }
 
-.filter > span {
+.filter-area .plugin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 15px;
+}
+
+.filter > span:first-child {
   text-align: center;
   margin-right: 5px;
 }
 
-.filter-area .required > span::after {
+.filter-area > .required > span:first-child::before {
   content: ' *';
   color: red;
 }
 
-.filter-area .plugin {
-  margin: auto;
-  margin-left: 5px;
-  width: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.filter > span:first-child::after {
+  content: ' : ';
 }
 
 .plugin > span {

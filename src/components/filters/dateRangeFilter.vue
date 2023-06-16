@@ -1,6 +1,6 @@
 <template>
   <div class="filter daterange" :class="filterConfig.required ? 'required' : ''">
-    <span>{{ filter.title }} : </span>
+    <span>{{ filter.title }}</span>
     <el-date-picker
       v-model="filter.values"
       type="daterange"
@@ -65,13 +65,3 @@ const shortcuts = [
 ]
 
 </script>
-
-<style scoped>
-.input > span {
-  display: inline;
-}
-
-.filter-input {
-  width: 70%;
-}
-</style>
