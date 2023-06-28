@@ -104,18 +104,26 @@ onMounted(() => {
 
 <style scoped>
 .login {
-    width: 100%;
-    height: 100%;
-    background-color: #35495e;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #35495e;
+  height: 100vh;
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.login .title,
-.login .box {
-    height: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.title {
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  flex: 5;
 }
 
 .title h1 {
