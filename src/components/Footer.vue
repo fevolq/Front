@@ -89,7 +89,7 @@ async function scroll(containerEl, scrollEl, speed=5) {
 onMounted(() => {
   const containerEl = document.querySelector('.scroll-container')
   const textEl = document.querySelector('.scroll-text')
-  scroll(containerEl, textEl, 3)
+  // scroll(containerEl, textEl, 3)
 })
 
 </script>
