@@ -45,5 +45,9 @@ export const financeNavRoutes = [
   {
     index: '/finance/fund',
     title: '基金',
+  },
+  {
+    index: '/finance/fund_monitior',
+    title: '基金监控',
   }
 ]

@@ -50,6 +50,12 @@ const routes = [
             name: 'Fund',
             meta: { title: '基金' },
             component: () => import('../views/finance/fundView.vue')
+          },
+          {
+            path: 'fund_monitior',
+            name: 'FundMonitor',
+            meta: { title: '基金监控' },
+            component: () => import('../views/finance/fundMonitorView.vue')
           }
         ]
       },
