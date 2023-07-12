@@ -45,7 +45,9 @@ const put = (url, data) => {
 
 const del = (url, data) => {
     return new Promise((resolve, reject) => {
-        service.put(url, data)
+      // json传参：{data: data}
+      // param传参：{param: data}
+        service.delete(url, { data: data})
         .then(res => resolve(res))
         .catch(error => reject(error))
     })
