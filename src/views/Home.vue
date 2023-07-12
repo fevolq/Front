@@ -18,3 +18,14 @@ import vHeader from '../components/Header.vue'
 import vFooter from '../components/Footer.vue'
 import vTag from '../components/Tag.vue'
 </script>
+
+<style>
+.content {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
+
+.compent {
+  padding: 30px;
+}
+</style>

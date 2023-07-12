@@ -1,17 +1,14 @@
 <template>
-  <FinanceSideBar></FinanceSideBar>
-  <RouterView v-slot="{ Component }">
-    <component :is="Component" />
-  </RouterView>
+  <div class="side-bar">
+    <FinanceSideBar></FinanceSideBar>
+  </div>
+  <div class="compent">
+    <RouterView v-slot="{ Component }">
+      <component :is="Component" />
+    </RouterView>
+  </div>
 </template>
 
 <script setup>
 import FinanceSideBar from '../components/FinanceSideBar.vue'
 </script>
-
-<style >
-.content {
-  display: grid;
-  grid-template-columns: 1fr 7fr;
-}
-</style>
