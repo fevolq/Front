@@ -20,6 +20,15 @@ const getChart = (name, chartName, query) => {
   return request.post(`/${baseUri}/${endPoint}`, data)
 }
 
+const getFiltersConfig = (names) => {
+  names = names.join(',')
+  const endPoint = 'filters'
+  const data = {
+    names: names,
+  }
+  return request.get(`/${baseUri}/${endPoint}`, data)
+}
+
 export {
-  getConfig, getChart, 
+  getConfig, getChart, getFiltersConfig, 
 }
