@@ -52,6 +52,7 @@
       </template>
     </el-table-column>
     <el-table-column label="更新时间" prop="update_at" align="center"></el-table-column>
+    <el-table-column label="备注" prop="remark" align="center"></el-table-column>
     <el-table-column label="操作" width="180" align="center">
       <template #default="scope">
           <el-button
@@ -85,6 +86,7 @@
   <!-- 编辑框 -->
   <el-dialog v-model="editVisible" width="30%">
     <el-form :model="editForm">
+      <el-form-item label="备注"><el-input v-model="editForm.remark"></el-input></el-form-item>
       <template v-if="formType == 'worth'">
         <el-form-item label="成本">
           <el-input v-model="editForm[formType].cost"></el-input>
@@ -122,6 +124,7 @@
   <el-dialog v-model="addVisible" width="30%">
     <el-form :model="addForm" :rules="rules" ref="formRef" label-width="100px">
       <el-form-item label="代码" prop="code"><el-input v-model="addForm.code" /></el-form-item>
+      <el-form-item label="备注" prop="remark"><el-input v-model="addForm.remark" /></el-form-item>
       <el-form-item label="类型" prop="type">
         <el-select v-model="addForm.type" placholder="请选择类型" clearable>
             <el-option v-for="typeOption in montitorTypeOption" :key="typeOption.value" :label="typeOption.label" :value="typeOption.value"></el-option>
@@ -209,6 +212,7 @@ const editVisible = ref(false)
 let formType = ref()
 const editForm = reactive({
   row: null,
+  remark: null,
   rate: {
     "3": null,
     "-3": null,
@@ -231,6 +235,7 @@ function handleEdit(row) {
   editVisible.value = true
   formType.value = row["type"]
   editForm.row = row
+  editForm.remark = row["remark"]
   Object.keys(editForm[formType.value]).forEach((key) => {
     editForm[formType.value][key] = row["option"][key]
   })
@@ -239,7 +244,7 @@ function handleEdit(row) {
 function saveEdit() {
   editVisible.value = false
   const rowData = editForm.row
-  fundApi.updateFundMonitor(rowData["id"], rowData["update_at"], editForm[rowData["type"]]).then(() => {
+  fundApi.updateFundMonitor(rowData["id"], rowData["update_at"], {option: editForm[rowData["type"]], remark: editForm.remark}).then(() => {
     ElMessage.success('更改成功')
     handleSearch()
   })
@@ -264,6 +269,7 @@ const addVisible = ref(false)
 const addForm = reactive({
   code: null,
   type: null,
+  remark: null,
   rate: {
     "3": null,
     "-3": null,
@@ -307,7 +313,7 @@ function handleAdd() {
     if (valid) {
       const option = addForm[addForm.type]
       if (!checkOption()) {return false}
-      fundApi.addFundMonitors(addForm.code, addForm.type, option).then((res) => {
+      fundApi.addFundMonitors(addForm.code, addForm.type, option, addForm.remark).then((res) => {
         ElMessage.success('添加成功')
         onReset()
         handleSearch()
