@@ -320,6 +320,11 @@ function handleAdd() {
 
 function onReset() {
     formRef.value.resetFields();
+    ["rate", "worth"].forEach((type) => {
+      Object.keys(addForm[type]).forEach((key) => {
+        addForm[type][key] = null
+      })
+    })
 }
 
 onMounted(() => {
