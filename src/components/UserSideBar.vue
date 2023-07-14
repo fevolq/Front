@@ -12,22 +12,10 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 import { userNavRoutes } from '../constant/nav.js'
 
 const route = useRoute()
-const router = useRouter()
 
 </script>
-
-<style scoped>
-.content .el-menu-item {
-  text-align: center;
-  font-size: 16px;
-}
-
-.content .el-menu-item[class~="is-active"] {
-  background-color: #3a6a9b35;
-}
-</style>

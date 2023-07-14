@@ -370,4 +370,8 @@ onMounted(() => {
 .mr10 {
   margin-right: 10px;
 }
+
+.pagination {
+  margin: 10px auto;
+}
 </style>

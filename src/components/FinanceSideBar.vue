@@ -18,14 +18,3 @@ import { financeNavRoutes } from '../constant/nav.js'
 const route = useRoute()
 
 </script>
-
-<style scoped>
-.content .el-menu-item {
-  text-align: center;
-  font-size: 16px;
-}
-
-.content .el-menu-item[class~="is-active"] {
-  background-color: #3a6a9b35;
-}
-</style>

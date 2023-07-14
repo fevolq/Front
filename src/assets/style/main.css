@@ -18,14 +18,13 @@ body,
 
 .header {
   width: 100%;
-  height: calc(var(--header-height) * 1%);
+  /* height: calc(var(--header-height) * 1%); */
   border-bottom: 1px inset rgba(175, 173, 173, 0.536);
 
   position: fixed;
 }
 
 .header[is-collapse~=true] {
-  /* height: 4%; */
   --header-height: 4;
 }
 

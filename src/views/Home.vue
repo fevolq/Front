@@ -21,11 +21,41 @@ import vTag from '../components/Tag.vue'
 
 <style>
 .content {
-  display: grid;
-  grid-template-columns: 1fr 7fr;
+  width: 100%;
+}
+
+#side-compent {
+  height: 100%;
+  /* display: grid;
+  grid-template-columns: 1fr 7fr; */
+
+  display: flex;
+}
+
+.side-bar {
+  flex: 0 0 12.5%;
+  min-width: 100px;
+  max-width: 150px;
 }
 
 .compent {
+  flex: 1;
   padding: 30px;
+}
+
+.side-bar .el-menu {
+  height: 100%;
+}
+
+.side-bar .el-menu-item {
+  text-align: center;
+  font-size: 16px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.side-bar .el-menu-item[class~="is-active"] {
+  background-color: #3a6a9b35;
 }
 </style>
